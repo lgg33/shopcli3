@@ -57,18 +57,18 @@
       </div>
       <div class="col-md-10">
         <div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
-          <a href="product_info.htm">
+          <a href="">
             <img src="~assets/products/hao/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
           </a>
         </div>
 
 
-        <div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
-          <a href="product_info.htm">
-            <img src="~assets/products/hao/small05.jpg" width="130" height="130" style="display: inline-block;">
+        <div class="col-md-2" v-for="item in hotProduct" style="text-align:center;height:200px;padding:10px 0px;">
+          <a style="cursor: pointer" @click="toDetail(item)">
+            <img :src="item.pimage" width="130" height="130" style="display: inline-block;">
           </a>
-          <p><a href="product_info.html" style='color:#666'>冬瓜</a></p>
-          <p><font color="#E4393C" style="font-size:16px">&yen;299.00</font></p>
+          <p><a @click="toDetail(item)" style='color:#666;cursor: pointer'>{{item.pname}}</a></p>
+          <p><font color="#E4393C" style="font-size:16px">{{item.shopPrice}}</font></p>
         </div>
       </div>
     </div>
@@ -88,17 +88,17 @@
       </div>
       <div class="col-md-10">
         <div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
-          <a href="product_info.htm">
+          <a href="">
             <img src="~assets/products/hao/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
           </a>
         </div>
 
-        <div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
-          <a href="product_info.htm">
-            <img src="~assets/products/hao/small03.jpg" width="130" height="130" style="display: inline-block;">
+        <div class="col-md-2" v-for="item in newProduct" style="text-align:center;height:200px;padding:10px 0px;">
+          <a style="cursor: pointer" @click="toDetail(item)">
+            <img :src="item.pimage" width="130" height="130" style="display: inline-block;">
           </a>
-          <p><a href="product_info.html" style='color:#666'>冬瓜</a></p>
-          <p><font color="#E4393C" style="font-size:16px">&yen;299.00</font></p>
+          <p><a @click="toDetail(item)" style='color:#666;cursor: pointer'>{{item.pname}}</a></p>
+          <p><font color="#E4393C" style="font-size:16px">{{item.shopPrice}}</font></p>
         </div>
 
       </div>
@@ -108,7 +108,37 @@
 
 <script>
   export default {
-    name: "Index"
+    name: "Index",
+    data() {
+      return {
+        hotProduct: [],
+        newProduct: [],
+      }
+    },
+    created() {
+      this.getHotProduct();
+      this.getNewProduct();
+    },
+    methods: {
+      async getHotProduct() {
+        const {data} = await this.$http.get('api/product/hotProduct');
+        this.hotProduct = data.queryResult.list;
+      },
+      async getNewProduct() {
+        const {data} = await this.$http.get('api/product/newProduct');
+        this.newProduct = data.queryResult.list;
+      },
+      async toDetail(item) {
+        console.log(item);
+        const {data} = await this.$http.get('api/category/findById/' + item.cid);
+        // console.log(data);
+        item.cname = data.cname;
+        await this.$router.push({
+          path: '/productDetail',
+          query: item
+        });
+      }
+    }
   }
 </script>
 

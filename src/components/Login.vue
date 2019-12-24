@@ -84,9 +84,11 @@
       this.getCookie();
     },
     methods: {
+      //获取验证码
       getCode() {
         this.codeUrl = this.codeUrl + "?a=" + new Date().getTime();
       },
+      //登录
       login() {
         this.$refs.loginFormRef.validate(async valid => {
           // console.log(this.loginFormRules);
@@ -113,9 +115,11 @@
             return this.$message.error('登录失败:' + data.message);
           }
           this.$message.success('登录成功');
+          window.sessionStorage.setItem('username', this.loginForm.username)
           await this.$router.push('/');
         })
       },
+      //重置表单
       resetLoginForm() {
         this.$refs.loginFormRef.resetFields();
       },
