@@ -16,8 +16,8 @@
           <li v-else><a href="" @click="toLogin">登录</a></li>
           <li v-if="username"><a href="" @click="toLogout">注销</a></li>
           <li v-else><a href="" @click="toRegister">注册</a></li>
-          <li><a href="cart.jsp">购物车</a></li>
-          <li><a href="order_list.jsp">我的订单</a></li>
+          <li><a style="cursor: pointer" @click="toCart">购物车</a></li>
+          <li><a style="cursor: pointer" @click="toOrder">我的订单</a></li>
         </ol>
 
       </div>
@@ -47,12 +47,12 @@
 <!--              <li><a href="#">电脑办公</a></li>-->
 <!--              <li><a href="#">电脑办公</a></li>-->
             </ul>
-            <form class="navbar-form navbar-right" role="search">
+            <div class="navbar-form navbar-right" role="search">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" v-model="keyWord" class="form-control" placeholder="Search">
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+              <button class="btn btn-default" @click="toSearch">搜索</button>
+            </div>
           </div>
         </div>
       </nav>
@@ -68,14 +68,18 @@
     data() {
       return {
         categories: [],
-        username: null
+        username: sessionStorage.getItem('username'),
+        keyWord: ''
       }
     },
     created() {
+      // let sName = window.sessionStorage.getItem('username');
+      // // console.log(sName);
+      // this.username = sName;
       this.getCategories();
-      let sName = window.sessionStorage.getItem('username');
-      // console.log(sName);
-      this.username = sName;
+    },
+    mounted() {
+      // window.location.reload();
     },
     methods: {
       //前往登录页
@@ -105,8 +109,30 @@
             cid
           }
         });
+      },
+      toCart() {
+        this.$router.push('/cart')
+      },
+      toOrder() {
+        this.$router.push('/order')
+      },
+      toSearch() {
+        this.$router.push({
+          path: '/search',
+          query: {
+            key: this.keyWord
+          }
+        })
       }
-    }
+    },
+    // watch: {
+    //   'username': {
+    //     handler() {
+    //       console.log('123');
+    //       this.$router.push('/');
+    //     }
+    //   }
+    // }
   }
 </script>
 

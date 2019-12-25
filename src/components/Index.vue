@@ -116,6 +116,7 @@
       }
     },
     created() {
+      this.$emit('rel');
       this.getHotProduct();
       this.getNewProduct();
     },

@@ -28,7 +28,7 @@
                       :current-page(设置当前页码)
                       :page-size(设置每页的数据条数)
                       :total(设置总页数) -->
-    <div style="width: 380px; margin-left: 200px; margin-top: 10px; margin-bottom: 10px">
+    <div  style="width: 380px; margin-left: 200px; margin-top: 10px; margin-bottom: 10px">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page="params.page" :page-sizes="[3, 1, 2, 5, 10]" :page-size="params.size"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -42,14 +42,13 @@
       <div style="width: 50%; float: right; text-align: right;">
         <a href="">more</a>
       </div>
-      <div style="clear: both;">
+      <div style="clear: both;"></div>
 
-      </div>
       <div style="overflow: hidden;">
+
         <ul style="list-style: none; margin-top: 30px">
-          <li v-for="item in this.$store.state.records"
-              style="width: 150px; height: 216px; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;">
-            <img :title="item.pname" :src="item.pimage" width="130px" height="130px"/>
+          <li v-for="item in this.$store.state.records" style="width: 150px; height: 216px; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;">
+            <img :title="item.pname" :src="item.pimage" width="130px" height="130px" style="cursor: pointer" @click="productDetail(item)"/>
           </li>
         </ul>
 
@@ -61,9 +60,9 @@
 
 <script>
   export default {
-    name: "product_list",
+    name: "Search",
     created() {
-      this.params.cid = this.$route.query.cid;
+      this.key = this.$route.query.key;
       // console.log(this.params.cid);
       this.findList();
       this.$store.commit('initRecords');
@@ -75,14 +74,14 @@
         params: {
           page: 1,
           size: 3,
-          cid: ''
         },
-        record: []
+        record: [],
+        key: ''
       }
     },
     methods: {
       findList() {
-        this.$http.get('api/product/findList/' + this.params.page + '/' + this.params.size + '?cid=' + this.params.cid)
+        this.$http.get('api/product/findByName/' + this.key + '/' + this.params.page + '/' + this.params.size)
           .then((data) => {
             // console.log(data);
             this.products = data.data.queryResult.list;
@@ -102,9 +101,8 @@
         this.findList();
       },
       async productDetail(item) {
-        const {data} = await this.$http.get('api/category/findById/' + this.params.cid);
+        const {data} = await this.$http.get('api/category/findById/' + item.cid);
         // console.log(data);
-        item.cid = this.params.cid;
         item.cname = data.cname;
         await this.$router.push({
           path: '/productDetail',
@@ -117,16 +115,13 @@
     },
     watch: {
       '$route'(to, from) {
-        this.params.cid = this.$route.query.cid;
+        this.key = this.$route.query.key;
         this.findList();
       }
     }
   }
 </script>
 
-<style lang="less" scoped>
-  .product-list {
-    margin-left: 70px;
-  }
+<style scoped>
 
 </style>

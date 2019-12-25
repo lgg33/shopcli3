@@ -7,8 +7,9 @@ import Welcome from "common/Welcome";
 import ProductList from "components/ProductList";
 import ProductDetail from "components/ProductDetail";
 import Cart from "components/Cart";
-import ca from "element-ui/src/locale/lang/ca";
-import Cart2 from "components/Cart2";
+import Order from "components/Order";
+import OrderInfo from "components/OrderInfo";
+import Search from "components/Search";
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -51,8 +52,16 @@ const routes = [
     component: Cart
   },
   {
-    path: '/cart2',
-    component: Cart2
+    path: '/order',
+    component: Order
+  },
+  {
+    path: '/orderInfo',
+    component: OrderInfo
+  },
+  {
+    path: '/search',
+    component: Search
   }
 ];
 

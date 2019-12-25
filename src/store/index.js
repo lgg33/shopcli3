@@ -5,7 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    records: []
+    records: [],
+    orders: JSON.parse(localStorage.getItem('orders')),
+    cartTotal: JSON.parse(localStorage.getItem('total')),
+    oid: JSON.parse(localStorage.getItem('oid')),
+    // username: sessionStorage.getItem('username')
   },
   getters: {
     // records(state) {

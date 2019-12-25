@@ -176,7 +176,7 @@
         if (username === null) return this.$router.push('/login');
         let pars = this.product;
         pars.num = this.num;
-        pars.cartPrice = this.num * pars.shoPrice;
+        pars.cartPrice = this.num * pars.shopPrice;
         pars.uname = username;
         await this.$http.post('api/product/addCart', pars);
         await this.$router.push('/cart');

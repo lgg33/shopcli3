@@ -56,7 +56,8 @@
           username: '',
           password: '',
           checkCode: '',
-          remember: false
+          remember: false,
+          autoLogin: false
         },
         loginFormRules: {
           username: [
@@ -95,7 +96,9 @@
           if (!valid) {
             return;
           }
-          const self = this;
+          // if (this.loginForm.autoLogin === true) {
+          //   this.setCookie(this.loginForm.username, this.loginForm.password, 7);
+          // }
           //判断复选框是否被勾选 勾选则调用配置cookie方法
           if (this.loginForm.remember === true) {
             console.log("checked == true");
@@ -115,8 +118,8 @@
             return this.$message.error('登录失败:' + data.message);
           }
           this.$message.success('登录成功');
-          window.sessionStorage.setItem('username', this.loginForm.username)
-          await this.$router.push('/');
+          window.sessionStorage.setItem('username', this.loginForm.username);
+          await this.$router.push('/index');
         })
       },
       //重置表单
