@@ -1,5 +1,5 @@
 # shopcli3
-
+* vuecli实现的简单前后端分离的电商项目，后端使用Springboot完成.
 ## Project setup
 ```
 npm install
